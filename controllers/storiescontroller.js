@@ -4,7 +4,20 @@ let validateSession = require("../middleware/validate-session");
 const Story = require("../db").import("../models/stories");
 
 router.get("/stories", validateSession, function (req, res) {
-  res.send("story route");
+  // res.send("story route");
+  Story.findAll({
+    where: {},
+  })
+    .then((stories) =>
+      res.status(200).json({
+        stories: stories,
+      })
+    )
+    .catch((err) =>
+      res.status(500).json({
+        error: err,
+      })
+    );
 });
 
 router.post("/create", validateSession, (req, res) => {
